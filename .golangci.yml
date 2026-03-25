@@ -1,0 +1,92 @@
+version: "2"
+
+run:
+  timeout: 5m
+
+formatters:
+  enable:
+    - gofumpt
+    - goimports
+
+linters:
+  default: none
+  enable:
+    # Essential
+    - govet
+    - errcheck
+    - staticcheck
+    - unused
+    - ineffassign
+
+    # Security
+    - gosec
+
+    # Style & correctness
+    - gocritic
+    - revive
+    - misspell
+    - unconvert
+    - unparam
+    - nolintlint
+    - copyloopvar
+
+    # Bug prevention
+    - bodyclose
+    - exhaustive
+
+    # Performance
+    - prealloc
+
+  settings:
+    govet:
+      enable-all: true
+      disable:
+        - fieldalignment
+    gosec:
+      excludes:
+        - G104  # unhandled errors — covered by errcheck
+    gocritic:
+      enabled-tags:
+        - diagnostic
+        - style
+        - performance
+      disabled-checks:
+        - hugeParam
+    revive:
+      rules:
+        - name: blank-imports
+        - name: context-as-argument
+        - name: dot-imports
+        - name: error-return
+        - name: error-strings
+        - name: error-naming
+        - name: exported
+          disabled: true
+        - name: increment-decrement
+        - name: var-naming
+        - name: range
+        - name: receiver-naming
+        - name: time-naming
+        - name: unexported-return
+        - name: indent-error-flow
+        - name: errorf
+        - name: empty-block
+        - name: superfluous-else
+        - name: unreachable-code
+    exhaustive:
+      default-signifies-exhaustive: true
+    misspell:
+      locale: US
+    nolintlint:
+      require-explanation: true
+      require-specific: true
+
+  exclusions:
+    rules:
+      - path: _test\.go
+        linters:
+          - gocritic
+          - unparam
+          - gosec
+    max-issues-per-linter: 0
+    max-same-issues: 0

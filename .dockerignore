@@ -1,0 +1,8 @@
+gitlab-mcp
+TOOLS.md
+PROPOSAL.md
+*.md
+!go.mod
+!go.sum
+.golangci.yml
+.claude/
