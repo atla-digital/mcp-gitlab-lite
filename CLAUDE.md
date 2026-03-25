@@ -106,6 +106,19 @@ The server listens on port **3000** (hardcoded).
 - **Imports**: alias GitLab client as `gl`, internal gitlab package as `glclient`
 - **No backward compat hacks**: breaking changes are the default
 
+## Versioning
+
+Managed by [commitizen](https://commitizen-tools.github.io/commitizen/). Version is tracked in:
+- `.cz.toml` (source of truth)
+- `cmd/server/main.go` (compiled into binary)
+
+Commit messages must follow [Conventional Commits](https://www.conventionalcommits.org/):
+- `feat:` → MINOR bump
+- `fix:` → PATCH bump
+- `feat!:` or `BREAKING CHANGE:` → MAJOR bump
+
+Bump version: `cz bump` (updates both files, creates tag + commit).
+
 ## Code quality tooling
 
 All configured in `.golangci.yml` (v2 format) and runnable via `make`.
