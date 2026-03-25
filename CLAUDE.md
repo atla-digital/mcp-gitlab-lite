@@ -94,6 +94,14 @@ The server listens on port **3000** (hardcoded).
 4. Run `make test` — the description test will fail if any tool/param lacks a description.
 5. Run `make generate` to update TOOLS.md.
 
+## Workflow
+
+- **Never push directly to `main`**. All changes go through feature branches and pull requests.
+- Branch naming: `<type>/<short-description>` (e.g. `feat/add-webhooks`, `fix/pagination-bug`, `docs/update-claude-md`).
+- PR titles must follow conventional commits format (they become the merge commit message).
+- CI runs lint, test, vuln scan, and Docker build on every PR.
+- Merging to `main` triggers the release pipeline: version bump → Docker push to ghcr.io → cosign signing → GitHub Release.
+
 ## Conventions
 
 - **Tool names**: `snake_case` (e.g. `list_issues`, `get_merge_request`)
