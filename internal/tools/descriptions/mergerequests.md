@@ -27,7 +27,7 @@ Get full details of a single merge request.
 ### project_id
 Project ID (numeric) or full path.
 
-### mr_iid
+### merge_request_iid
 The internal ID of the merge request within the project.
 
 ## create_merge_request
@@ -62,7 +62,7 @@ Update an existing merge request.
 ### project_id
 Project ID (numeric) or full path.
 
-### mr_iid
+### merge_request_iid
 The internal ID of the merge request.
 
 ### title
@@ -87,7 +87,7 @@ Accept and merge a merge request.
 ### project_id
 Project ID (numeric) or full path.
 
-### mr_iid
+### merge_request_iid
 The internal ID of the merge request.
 
 ### merge_commit_message
@@ -106,7 +106,7 @@ Approve a merge request.
 ### project_id
 Project ID (numeric) or full path.
 
-### mr_iid
+### merge_request_iid
 The internal ID of the merge request.
 
 ## list_mr_notes
@@ -116,7 +116,7 @@ List all comments on a merge request.
 ### project_id
 Project ID (numeric) or full path.
 
-### mr_iid
+### merge_request_iid
 The internal ID of the merge request.
 
 ## create_mr_note
@@ -126,7 +126,7 @@ Add a comment to a merge request.
 ### project_id
 Project ID (numeric) or full path.
 
-### mr_iid
+### merge_request_iid
 The internal ID of the merge request.
 
 ### body
@@ -139,7 +139,7 @@ Create a new discussion thread on a merge request diff.
 ### project_id
 Project ID (numeric) or full path.
 
-### mr_iid
+### merge_request_iid
 The internal ID of the merge request.
 
 ### body
@@ -173,7 +173,7 @@ List all file diffs in a merge request.
 ### project_id
 Project ID (numeric) or full path.
 
-### mr_iid
+### merge_request_iid
 The internal ID of the merge request.
 
 ## list_mr_commits
@@ -183,7 +183,7 @@ List all commits in a merge request.
 ### project_id
 Project ID (numeric) or full path.
 
-### mr_iid
+### merge_request_iid
 The internal ID of the merge request.
 
 ## list_mr_pipelines
@@ -193,7 +193,7 @@ List all pipelines for a merge request.
 ### project_id
 Project ID (numeric) or full path.
 
-### mr_iid
+### merge_request_iid
 The internal ID of the merge request.
 
 ## search_merge_requests

@@ -6,7 +6,7 @@ List GitLab projects. By default only returns projects the authenticated user is
 Filter projects by name or path (fuzzy match).
 
 ### membership
-Set to "false" to include all visible projects, not just those the user is a member of. Default: "true".
+If true, only return projects the authenticated user is a member of. If false, return all visible projects. Default: true.
 
 ### visibility
 Filter by visibility: "public", "internal", or "private".

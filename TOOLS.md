@@ -24,7 +24,7 @@ List GitLab projects. By default only returns projects the authenticated user is
 
 | Parameter | Required | Type | Description |
 |-----------|----------|------|-------------|
-| `membership` | | `string` | Set to "false" to include all visible projects, not just those the user is a member of. Default: "true". |
+| `membership` | | `boolean` | If true, only return projects the authenticated user is a member of. If false, return all visible projects. Default: true. |
 | `page` | | `number` | Page number for paginated results (default: 1). |
 | `search` | | `string` | Filter projects by name or path (fuzzy match). |
 | `visibility` | | `string` | Filter by visibility: "public", "internal", or "private". |
@@ -147,7 +147,7 @@ Get full details of a single merge request.
 | Parameter | Required | Type | Description |
 |-----------|----------|------|-------------|
 | `project_id` | ✓ | `string` | Project ID (numeric) or full path. |
-| `mr_iid` | ✓ | `number` | The internal ID of the merge request within the project. |
+| `merge_request_iid` | ✓ | `number` | The internal ID of the merge request within the project. |
 
 ### `create_merge_request`
 
@@ -170,7 +170,7 @@ Update an existing merge request.
 | Parameter | Required | Type | Description |
 |-----------|----------|------|-------------|
 | `project_id` | ✓ | `string` | Project ID (numeric) or full path. |
-| `mr_iid` | ✓ | `number` | The internal ID of the merge request. |
+| `merge_request_iid` | ✓ | `number` | The internal ID of the merge request. |
 | `description` | | `string` | New description (leave empty to keep current). |
 | `labels` | | `string` | Comma-separated label names (replaces existing labels). |
 | `state_event` | | `string` | State transition: "close" or "reopen". |
@@ -184,7 +184,7 @@ Accept and merge a merge request.
 | Parameter | Required | Type | Description |
 |-----------|----------|------|-------------|
 | `project_id` | ✓ | `string` | Project ID (numeric) or full path. |
-| `mr_iid` | ✓ | `number` | The internal ID of the merge request. |
+| `merge_request_iid` | ✓ | `number` | The internal ID of the merge request. |
 | `merge_commit_message` | | `string` | Custom merge commit message. |
 | `should_remove_source_branch` | | `boolean` | Delete source branch after merge. |
 | `squash` | | `boolean` | Squash commits when merging. |
@@ -196,7 +196,7 @@ Approve a merge request.
 | Parameter | Required | Type | Description |
 |-----------|----------|------|-------------|
 | `project_id` | ✓ | `string` | Project ID (numeric) or full path. |
-| `mr_iid` | ✓ | `number` | The internal ID of the merge request. |
+| `merge_request_iid` | ✓ | `number` | The internal ID of the merge request. |
 
 ### `list_mr_notes`
 
@@ -205,7 +205,7 @@ List all comments on a merge request.
 | Parameter | Required | Type | Description |
 |-----------|----------|------|-------------|
 | `project_id` | ✓ | `string` | Project ID (numeric) or full path. |
-| `mr_iid` | ✓ | `number` | The internal ID of the merge request. |
+| `merge_request_iid` | ✓ | `number` | The internal ID of the merge request. |
 
 ### `create_mr_note`
 
@@ -214,7 +214,7 @@ Add a comment to a merge request.
 | Parameter | Required | Type | Description |
 |-----------|----------|------|-------------|
 | `project_id` | ✓ | `string` | Project ID (numeric) or full path. |
-| `mr_iid` | ✓ | `number` | The internal ID of the merge request. |
+| `merge_request_iid` | ✓ | `number` | The internal ID of the merge request. |
 | `body` | ✓ | `string` | Markdown body of the comment. |
 
 ### `create_mr_discussion`
@@ -224,7 +224,7 @@ Create a new discussion thread on a merge request diff.
 | Parameter | Required | Type | Description |
 |-----------|----------|------|-------------|
 | `project_id` | ✓ | `string` | Project ID (numeric) or full path. |
-| `mr_iid` | ✓ | `number` | The internal ID of the merge request. |
+| `merge_request_iid` | ✓ | `number` | The internal ID of the merge request. |
 | `body` | ✓ | `string` | Markdown body of the discussion comment. |
 | `base_sha` | ✓ | `string` | Base commit SHA of the merge request diff. |
 | `head_sha` | ✓ | `string` | Head commit SHA of the merge request diff. |
@@ -241,7 +241,7 @@ List all file diffs in a merge request.
 | Parameter | Required | Type | Description |
 |-----------|----------|------|-------------|
 | `project_id` | ✓ | `string` | Project ID (numeric) or full path. |
-| `mr_iid` | ✓ | `number` | The internal ID of the merge request. |
+| `merge_request_iid` | ✓ | `number` | The internal ID of the merge request. |
 
 ### `list_mr_commits`
 
@@ -250,7 +250,7 @@ List all commits in a merge request.
 | Parameter | Required | Type | Description |
 |-----------|----------|------|-------------|
 | `project_id` | ✓ | `string` | Project ID (numeric) or full path. |
-| `mr_iid` | ✓ | `number` | The internal ID of the merge request. |
+| `merge_request_iid` | ✓ | `number` | The internal ID of the merge request. |
 
 ### `list_mr_pipelines`
 
@@ -259,7 +259,7 @@ List all pipelines for a merge request.
 | Parameter | Required | Type | Description |
 |-----------|----------|------|-------------|
 | `project_id` | ✓ | `string` | Project ID (numeric) or full path. |
-| `mr_iid` | ✓ | `number` | The internal ID of the merge request. |
+| `merge_request_iid` | ✓ | `number` | The internal ID of the merge request. |
 
 ### `search_merge_requests`
 

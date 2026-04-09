@@ -25,7 +25,7 @@ func MREntries(d descriptions.Catalog) []Entry {
 			Handler: listMRs,
 		},
 		Entry{
-			Tool:    d.For("get_merge_request").Str("project_id", mcp.Required()).Num("mr_iid", mcp.Required()).Build(),
+			Tool:    d.For("get_merge_request").Str("project_id", mcp.Required()).Num("merge_request_iid", mcp.Required()).Build(),
 			Handler: getMR,
 		},
 		Entry{
@@ -43,7 +43,7 @@ func MREntries(d descriptions.Catalog) []Entry {
 		Entry{
 			Tool: d.For("update_merge_request").
 				Str("project_id", mcp.Required()).
-				Num("mr_iid", mcp.Required()).
+				Num("merge_request_iid", mcp.Required()).
 				Str("title").Str("description").Str("target_branch").
 				Str("state_event").Str("labels").
 				Build(),
@@ -52,7 +52,7 @@ func MREntries(d descriptions.Catalog) []Entry {
 		Entry{
 			Tool: d.For("merge_merge_request").
 				Str("project_id", mcp.Required()).
-				Num("mr_iid", mcp.Required()).
+				Num("merge_request_iid", mcp.Required()).
 				Str("merge_commit_message").
 				Bool("squash").
 				Bool("should_remove_source_branch").
@@ -60,21 +60,21 @@ func MREntries(d descriptions.Catalog) []Entry {
 			Handler: mergeMR,
 		},
 		Entry{
-			Tool:    d.For("approve_merge_request").Str("project_id", mcp.Required()).Num("mr_iid", mcp.Required()).Build(),
+			Tool:    d.For("approve_merge_request").Str("project_id", mcp.Required()).Num("merge_request_iid", mcp.Required()).Build(),
 			Handler: approveMR,
 		},
 		Entry{
-			Tool:    d.For("list_mr_notes").Str("project_id", mcp.Required()).Num("mr_iid", mcp.Required()).Build(),
+			Tool:    d.For("list_mr_notes").Str("project_id", mcp.Required()).Num("merge_request_iid", mcp.Required()).Build(),
 			Handler: listMRNotes,
 		},
 		Entry{
-			Tool:    d.For("create_mr_note").Str("project_id", mcp.Required()).Num("mr_iid", mcp.Required()).Str("body", mcp.Required()).Build(),
+			Tool:    d.For("create_mr_note").Str("project_id", mcp.Required()).Num("merge_request_iid", mcp.Required()).Str("body", mcp.Required()).Build(),
 			Handler: createMRNote,
 		},
 		Entry{
 			Tool: d.For("create_mr_discussion").
 				Str("project_id", mcp.Required()).
-				Num("mr_iid", mcp.Required()).
+				Num("merge_request_iid", mcp.Required()).
 				Str("body", mcp.Required()).
 				Str("base_sha", mcp.Required()).
 				Str("head_sha", mcp.Required()).
@@ -85,15 +85,15 @@ func MREntries(d descriptions.Catalog) []Entry {
 			Handler: createMRDiscussion,
 		},
 		Entry{
-			Tool:    d.For("list_mr_diffs").Str("project_id", mcp.Required()).Num("mr_iid", mcp.Required()).Build(),
+			Tool:    d.For("list_mr_diffs").Str("project_id", mcp.Required()).Num("merge_request_iid", mcp.Required()).Build(),
 			Handler: listMRDiffs,
 		},
 		Entry{
-			Tool:    d.For("list_mr_commits").Str("project_id", mcp.Required()).Num("mr_iid", mcp.Required()).Build(),
+			Tool:    d.For("list_mr_commits").Str("project_id", mcp.Required()).Num("merge_request_iid", mcp.Required()).Build(),
 			Handler: listMRCommits,
 		},
 		Entry{
-			Tool:    d.For("list_mr_pipelines").Str("project_id", mcp.Required()).Num("mr_iid", mcp.Required()).Build(),
+			Tool:    d.For("list_mr_pipelines").Str("project_id", mcp.Required()).Num("merge_request_iid", mcp.Required()).Build(),
 			Handler: listMRPipelines,
 		},
 		Entry{

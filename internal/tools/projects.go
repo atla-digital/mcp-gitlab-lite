@@ -15,7 +15,7 @@ func ProjectEntries(d descriptions.Catalog) []Entry {
 		Entry{
 			Tool: d.For("list_projects").
 				Str("search").
-				Str("membership").
+				Bool("membership").
 				Str("visibility").
 				Num("page").
 				Build(),
@@ -39,7 +39,10 @@ func ProjectEntries(d descriptions.Catalog) []Entry {
 
 func listProjects(_ context.Context, client *gl.Client, req mcp.CallToolRequest) (*mcp.CallToolResult, error) {
 	a := args.From(req)
-	membership := a.Str("membership") != "false"
+	membership := true
+	if v, ok := a.Bool("membership"); ok {
+		membership = v
+	}
 	opts := &gl.ListProjectsOptions{
 		Membership:  gl.Ptr(membership),
 		ListOptions: gl.ListOptions{Page: a.Page(), PerPage: model.DefaultPerPage},
@@ -76,7 +79,7 @@ func listGroupProjects(_ context.Context, client *gl.Client, req mcp.CallToolReq
 		opts.Search = gl.Ptr(s)
 	}
 	if v, ok := a.Bool("include_subgroups"); ok {
-		opts.WithShared = gl.Ptr(v)
+		opts.IncludeSubGroups = gl.Ptr(v)
 	}
 	projects, resp, err := client.Groups.ListGroupProjects(a.GroupID(), opts)
 	if err != nil {

@@ -56,7 +56,7 @@ func (r R) Bool(key string) (val, ok bool) {
 func (r R) ProjectID() string { return r.Str("project_id") }
 func (r R) GroupID() string   { return r.Str("group_id") }
 func (r R) IssueIID() int64   { return r.Int64("issue_iid") }
-func (r R) MrIID() int64      { return r.Int64("mr_iid") }
+func (r R) MrIID() int64      { return r.Int64("merge_request_iid") }
 func (r R) PipelineID() int64 { return r.Int64("pipeline_id") }
 func (r R) JobID() int64      { return r.Int64("job_id") }
 func (r R) UserID() int64     { return r.Int64("user_id") }

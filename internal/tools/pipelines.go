@@ -68,7 +68,7 @@ func listPipelines(_ context.Context, client *gl.Client, req mcp.CallToolRequest
 	opts := &gl.ListProjectPipelinesOptions{
 		ListOptions: gl.ListOptions{Page: a.Page(), PerPage: model.DefaultPerPage},
 	}
-	if s := a.Scope(); s != "" {
+	if s := a.Str("status"); s != "" {
 		v := gl.BuildStateValue(s)
 		opts.Status = &v
 	}
