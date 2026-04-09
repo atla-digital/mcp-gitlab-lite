@@ -2,7 +2,11 @@
 // All JSON numbers arrive as float64; domain methods handle conversion.
 package args
 
-import "github.com/mark3labs/mcp-go/mcp"
+import (
+	"strconv"
+
+	"github.com/mark3labs/mcp-go/mcp"
+)
 
 // R wraps the raw arguments map with typed accessors.
 // The zero value is safe; missing keys return zero values.
@@ -21,15 +25,23 @@ func (r R) Str(key string) string {
 }
 
 func (r R) Int(key string) int {
-	if v, ok := r.m[key].(float64); ok {
+	switch v := r.m[key].(type) {
+	case float64:
 		return int(v)
+	case string:
+		n, _ := strconv.Atoi(v)
+		return n
 	}
 	return 0
 }
 
 func (r R) Int64(key string) int64 {
-	if v, ok := r.m[key].(float64); ok {
+	switch v := r.m[key].(type) {
+	case float64:
 		return int64(v)
+	case string:
+		n, _ := strconv.ParseInt(v, 10, 64)
+		return n
 	}
 	return 0
 }
