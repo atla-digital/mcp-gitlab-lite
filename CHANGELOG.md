@@ -1,3 +1,15 @@
+## v1.0.0 (2026-04-09)
+
+### BREAKING CHANGE
+
+- the MR tools now expect \`merge_request_iid\` instead of
+\`mr_iid\`, and \`list_projects\` expects a boolean \`membership\` instead
+of a string.
+
+### Fix
+
+- **tools**: align parameter names with GitLab API and fix dead params
+
 ## v0.2.1 (2026-04-09)
 
 ### Fix
