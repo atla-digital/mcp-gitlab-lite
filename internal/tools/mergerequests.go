@@ -56,6 +56,7 @@ func MREntries(d descriptions.Catalog) []Entry {
 				Str("merge_commit_message").
 				Bool("squash").
 				Bool("should_remove_source_branch").
+				Str("sha").
 				Build(),
 			Handler: mergeMR,
 		},
@@ -195,6 +196,24 @@ func mergeMR(_ context.Context, client *gl.Client, req mcp.CallToolRequest) (*mc
 	if v, ok := a.Bool("should_remove_source_branch"); ok {
 		opts.ShouldRemoveSourceBranch = gl.Ptr(v)
 	}
+
+	// GitLab requires the `sha` parameter for projects/groups that enable merge
+	// protections; without it the API rejects the merge with
+	// "SHA must be provided when merging" even when the MR is fully mergeable.
+	// Default to the MR's current head SHA — mirroring the web UI's Merge button —
+	// unless the caller pins a specific commit.
+	sha := a.Str("sha")
+	if sha == "" {
+		current, _, err := client.MergeRequests.GetMergeRequest(a.ProjectID(), a.MrIID(), nil)
+		if err != nil {
+			return errResult(err)
+		}
+		sha = current.SHA
+	}
+	if sha != "" {
+		opts.SHA = gl.Ptr(sha)
+	}
+
 	mr, _, err := client.MergeRequests.AcceptMergeRequest(a.ProjectID(), a.MrIID(), opts)
 	if err != nil {
 		return errResult(err)
