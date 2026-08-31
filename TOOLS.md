@@ -186,6 +186,7 @@ Accept and merge a merge request.
 | `project_id` | ✓ | `string` | Project ID (numeric) or full path. |
 | `merge_request_iid` | ✓ | `number` | The internal ID of the merge request. |
 | `merge_commit_message` | | `string` | Custom merge commit message. |
+| `sha` | | `string` | Head commit SHA the merge must match. Optional — defaults to the merge request's current head SHA. GitLab rejects the merge with "SHA must be provided when merging" on projects with merge protections enabled, so this is sent on every merge. Provide an explicit value to guard against merging a branch that changed since you last inspected it. |
 | `should_remove_source_branch` | | `boolean` | Delete source branch after merge. |
 | `squash` | | `boolean` | Squash commits when merging. |
 
