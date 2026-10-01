@@ -2,6 +2,7 @@ package tools
 
 import (
 	"context"
+	"strconv"
 
 	"github.com/atla-digital/mcp-gitlab-lite/internal/model"
 	"github.com/atla-digital/mcp-gitlab-lite/internal/tools/args"
@@ -73,6 +74,31 @@ func IssueEntries(d descriptions.Catalog) []Entry {
 				Str("body", mcp.Required()).
 				Build(),
 			Handler: createIssueNote,
+		},
+		Entry{
+			Tool: d.For("list_issue_links").
+				Str("project_id", mcp.Required()).
+				Num("issue_iid", mcp.Required()).
+				Build(),
+			Handler: listIssueLinks,
+		},
+		Entry{
+			Tool: d.For("create_issue_link").
+				Str("project_id", mcp.Required()).
+				Num("issue_iid", mcp.Required()).
+				Str("target_project_id", mcp.Required()).
+				Num("target_issue_iid", mcp.Required()).
+				Str("link_type").
+				Build(),
+			Handler: createIssueLink,
+		},
+		Entry{
+			Tool: d.For("delete_issue_link").
+				Str("project_id", mcp.Required()).
+				Num("issue_iid", mcp.Required()).
+				Num("issue_link_id", mcp.Required()).
+				Build(),
+			Handler: deleteIssueLink,
 		},
 		Entry{
 			Tool: d.For("search_issues").
@@ -200,4 +226,38 @@ func searchIssues(_ context.Context, client *gl.Client, req mcp.CallToolRequest)
 		return errResult(err)
 	}
 	return jsonResult(model.NewPaged(model.ToIssueRefs(issues), resp, a.Page()))
+}
+
+func listIssueLinks(_ context.Context, client *gl.Client, req mcp.CallToolRequest) (*mcp.CallToolResult, error) {
+	a := args.From(req)
+	rels, _, err := client.IssueLinks.ListIssueRelations(a.ProjectID(), a.IssueIID())
+	if err != nil {
+		return errResult(err)
+	}
+	return jsonResult(model.ToIssueLinkRefs(rels))
+}
+
+func createIssueLink(_ context.Context, client *gl.Client, req mcp.CallToolRequest) (*mcp.CallToolResult, error) {
+	a := args.From(req)
+	opt := &gl.CreateIssueLinkOptions{
+		TargetProjectID: gl.Ptr(a.Str("target_project_id")),
+		TargetIssueIID:  gl.Ptr(strconv.FormatInt(a.Int64("target_issue_iid"), 10)),
+	}
+	if t := a.Str("link_type"); t != "" {
+		opt.LinkType = gl.Ptr(t)
+	}
+	link, _, err := client.IssueLinks.CreateIssueLink(a.ProjectID(), a.IssueIID(), opt)
+	if err != nil {
+		return errResult(err)
+	}
+	return jsonResult(model.ToIssueLink(link))
+}
+
+func deleteIssueLink(_ context.Context, client *gl.Client, req mcp.CallToolRequest) (*mcp.CallToolResult, error) {
+	a := args.From(req)
+	link, _, err := client.IssueLinks.DeleteIssueLink(a.ProjectID(), a.IssueIID(), a.Int64("issue_link_id"))
+	if err != nil {
+		return errResult(err)
+	}
+	return jsonResult(model.ToIssueLink(link))
 }
