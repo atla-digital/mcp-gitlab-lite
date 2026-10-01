@@ -109,9 +109,9 @@ Project ID (numeric) or full path.
 ### merge_request_iid
 The internal ID of the merge request.
 
-## list_mr_notes
+## list_mr_discussions
 
-List all comments on a merge request.
+List all discussion threads on a merge request, including diff threads (with file position and resolved state). Each thread has an `id` and ordered `notes` (first is the root, the rest are replies). Use the thread `id` with reply_to_mr_discussion.
 
 ### project_id
 Project ID (numeric) or full path.
@@ -119,9 +119,25 @@ Project ID (numeric) or full path.
 ### merge_request_iid
 The internal ID of the merge request.
 
+## reply_to_mr_discussion
+
+Reply inside an existing discussion thread on a merge request.
+
+### project_id
+Project ID (numeric) or full path.
+
+### merge_request_iid
+The internal ID of the merge request.
+
+### discussion_id
+ID of the thread to reply to (from list_mr_discussions).
+
+### body
+Markdown body of the reply.
+
 ## create_mr_note
 
-Add a comment to a merge request.
+Add a new top-level comment to a merge request (starts a new thread; to answer an existing thread use reply_to_mr_discussion).
 
 ### project_id
 Project ID (numeric) or full path.

@@ -64,8 +64,12 @@ func MREntries(d descriptions.Catalog) []Entry {
 			Handler: approveMR,
 		},
 		Entry{
-			Tool:    d.For("list_mr_notes").Str("project_id", mcp.Required()).Num("merge_request_iid", mcp.Required()).Build(),
-			Handler: listMRNotes,
+			Tool:    d.For("list_mr_discussions").Str("project_id", mcp.Required()).Num("merge_request_iid", mcp.Required()).Build(),
+			Handler: listMRDiscussions,
+		},
+		Entry{
+			Tool:    d.For("reply_to_mr_discussion").Str("project_id", mcp.Required()).Num("merge_request_iid", mcp.Required()).Str("discussion_id", mcp.Required()).Str("body", mcp.Required()).Build(),
+			Handler: replyToMRDiscussion,
 		},
 		Entry{
 			Tool:    d.For("create_mr_note").Str("project_id", mcp.Required()).Num("merge_request_iid", mcp.Required()).Str("body", mcp.Required()).Build(),
@@ -211,14 +215,24 @@ func approveMR(_ context.Context, client *gl.Client, req mcp.CallToolRequest) (*
 	return jsonResult(approval)
 }
 
-func listMRNotes(_ context.Context, client *gl.Client, req mcp.CallToolRequest) (*mcp.CallToolResult, error) {
+func listMRDiscussions(_ context.Context, client *gl.Client, req mcp.CallToolRequest) (*mcp.CallToolResult, error) {
 	a := args.From(req)
-	notes, _, err := client.Notes.ListMergeRequestNotes(a.ProjectID(), a.MrIID(),
-		&gl.ListMergeRequestNotesOptions{ListOptions: gl.ListOptions{PerPage: model.MaxPerPage}})
+	ds, _, err := client.Discussions.ListMergeRequestDiscussions(a.ProjectID(), a.MrIID(),
+		&gl.ListMergeRequestDiscussionsOptions{ListOptions: gl.ListOptions{PerPage: model.MaxPerPage}})
 	if err != nil {
 		return errResult(err)
 	}
-	return jsonResult(model.ToNotes(notes))
+	return jsonResult(model.ToDiscussions(ds))
+}
+
+func replyToMRDiscussion(_ context.Context, client *gl.Client, req mcp.CallToolRequest) (*mcp.CallToolResult, error) {
+	a := args.From(req)
+	note, _, err := client.Discussions.AddMergeRequestDiscussionNote(a.ProjectID(), a.MrIID(), a.Str("discussion_id"),
+		&gl.AddMergeRequestDiscussionNoteOptions{Body: gl.Ptr(a.Body())})
+	if err != nil {
+		return errResult(err)
+	}
+	return jsonResult(model.ToNote(note))
 }
 
 func createMRNote(_ context.Context, client *gl.Client, req mcp.CallToolRequest) (*mcp.CallToolResult, error) {
