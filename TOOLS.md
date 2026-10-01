@@ -96,18 +96,29 @@ Update an existing issue's title, description, state, or labels.
 | `state_event` | | `string` | State transition: "close" or "reopen". |
 | `title` | | `string` | New title (leave empty to keep current). |
 
-### `list_issue_notes`
+### `list_issue_discussions`
 
-List all comments on an issue.
+List all discussion threads on an issue. Each thread has an `id` and ordered `notes` (first is the root, the rest are replies). Use the thread `id` with reply_to_issue_discussion.
 
 | Parameter | Required | Type | Description |
 |-----------|----------|------|-------------|
 | `project_id` | ✓ | `string` | Project ID (numeric) or full path. |
 | `issue_iid` | ✓ | `number` | The internal ID of the issue. |
 
+### `reply_to_issue_discussion`
+
+Reply inside an existing discussion thread on an issue.
+
+| Parameter | Required | Type | Description |
+|-----------|----------|------|-------------|
+| `project_id` | ✓ | `string` | Project ID (numeric) or full path. |
+| `issue_iid` | ✓ | `number` | The internal ID of the issue. |
+| `discussion_id` | ✓ | `string` | ID of the thread to reply to (from list_issue_discussions). |
+| `body` | ✓ | `string` | Markdown body of the reply. |
+
 ### `create_issue_note`
 
-Add a comment to an issue.
+Add a new top-level comment to an issue (starts a new thread; to answer an existing thread use reply_to_issue_discussion).
 
 | Parameter | Required | Type | Description |
 |-----------|----------|------|-------------|
@@ -198,18 +209,29 @@ Approve a merge request.
 | `project_id` | ✓ | `string` | Project ID (numeric) or full path. |
 | `merge_request_iid` | ✓ | `number` | The internal ID of the merge request. |
 
-### `list_mr_notes`
+### `list_mr_discussions`
 
-List all comments on a merge request.
+List all discussion threads on a merge request, including diff threads (with file position and resolved state). Each thread has an `id` and ordered `notes` (first is the root, the rest are replies). Use the thread `id` with reply_to_mr_discussion.
 
 | Parameter | Required | Type | Description |
 |-----------|----------|------|-------------|
 | `project_id` | ✓ | `string` | Project ID (numeric) or full path. |
 | `merge_request_iid` | ✓ | `number` | The internal ID of the merge request. |
 
+### `reply_to_mr_discussion`
+
+Reply inside an existing discussion thread on a merge request.
+
+| Parameter | Required | Type | Description |
+|-----------|----------|------|-------------|
+| `project_id` | ✓ | `string` | Project ID (numeric) or full path. |
+| `merge_request_iid` | ✓ | `number` | The internal ID of the merge request. |
+| `discussion_id` | ✓ | `string` | ID of the thread to reply to (from list_mr_discussions). |
+| `body` | ✓ | `string` | Markdown body of the reply. |
+
 ### `create_mr_note`
 
-Add a comment to a merge request.
+Add a new top-level comment to a merge request (starts a new thread; to answer an existing thread use reply_to_mr_discussion).
 
 | Parameter | Required | Type | Description |
 |-----------|----------|------|-------------|

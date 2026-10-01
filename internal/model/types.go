@@ -128,6 +128,25 @@ type Note struct {
 	Author    PersonRef  `json:"author"`
 	CreatedAt *time.Time `json:"created_at,omitempty"`
 	System    bool       `json:"system"`
+	// Resolvable/Resolved and Position are only set on diff/thread notes.
+	Resolvable bool          `json:"resolvable,omitempty"`
+	Resolved   bool          `json:"resolved,omitempty"`
+	Position   *NotePosition `json:"position,omitempty"`
+}
+
+// NotePosition locates a diff note in a file.
+type NotePosition struct {
+	NewPath string `json:"new_path,omitempty"`
+	OldPath string `json:"old_path,omitempty"`
+	NewLine int64  `json:"new_line,omitempty"`
+	OldLine int64  `json:"old_line,omitempty"`
+}
+
+// Discussion is a thread: an ordered list of notes where the first is the
+// root and the rest are replies.
+type Discussion struct {
+	ID    string `json:"id"`
+	Notes []Note `json:"notes"`
 }
 
 // Branch represents a git branch.

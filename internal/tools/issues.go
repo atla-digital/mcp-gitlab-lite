@@ -51,11 +51,20 @@ func IssueEntries(d descriptions.Catalog) []Entry {
 			Handler: updateIssue,
 		},
 		Entry{
-			Tool: d.For("list_issue_notes").
+			Tool: d.For("list_issue_discussions").
 				Str("project_id", mcp.Required()).
 				Num("issue_iid", mcp.Required()).
 				Build(),
-			Handler: listIssueNotes,
+			Handler: listIssueDiscussions,
+		},
+		Entry{
+			Tool: d.For("reply_to_issue_discussion").
+				Str("project_id", mcp.Required()).
+				Num("issue_iid", mcp.Required()).
+				Str("discussion_id", mcp.Required()).
+				Str("body", mcp.Required()).
+				Build(),
+			Handler: replyToIssueDiscussion,
 		},
 		Entry{
 			Tool: d.For("create_issue_note").
@@ -148,14 +157,24 @@ func updateIssue(_ context.Context, client *gl.Client, req mcp.CallToolRequest) 
 	return jsonResult(model.ToIssue(issue))
 }
 
-func listIssueNotes(_ context.Context, client *gl.Client, req mcp.CallToolRequest) (*mcp.CallToolResult, error) {
+func listIssueDiscussions(_ context.Context, client *gl.Client, req mcp.CallToolRequest) (*mcp.CallToolResult, error) {
 	a := args.From(req)
-	notes, _, err := client.Notes.ListIssueNotes(a.ProjectID(), a.IssueIID(),
-		&gl.ListIssueNotesOptions{ListOptions: gl.ListOptions{PerPage: model.MaxPerPage}})
+	ds, _, err := client.Discussions.ListIssueDiscussions(a.ProjectID(), a.IssueIID(),
+		&gl.ListIssueDiscussionsOptions{ListOptions: gl.ListOptions{PerPage: model.MaxPerPage}})
 	if err != nil {
 		return errResult(err)
 	}
-	return jsonResult(model.ToNotes(notes))
+	return jsonResult(model.ToDiscussions(ds))
+}
+
+func replyToIssueDiscussion(_ context.Context, client *gl.Client, req mcp.CallToolRequest) (*mcp.CallToolResult, error) {
+	a := args.From(req)
+	note, _, err := client.Discussions.AddIssueDiscussionNote(a.ProjectID(), a.IssueIID(), a.Str("discussion_id"),
+		&gl.AddIssueDiscussionNoteOptions{Body: gl.Ptr(a.Body())})
+	if err != nil {
+		return errResult(err)
+	}
+	return jsonResult(model.ToNote(note))
 }
 
 func createIssueNote(_ context.Context, client *gl.Client, req mcp.CallToolRequest) (*mcp.CallToolResult, error) {

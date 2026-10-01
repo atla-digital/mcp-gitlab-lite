@@ -68,9 +68,9 @@ State transition: "close" or "reopen".
 ### labels
 Comma-separated label names (replaces existing labels).
 
-## list_issue_notes
+## list_issue_discussions
 
-List all comments on an issue.
+List all discussion threads on an issue. Each thread has an `id` and ordered `notes` (first is the root, the rest are replies). Use the thread `id` with reply_to_issue_discussion.
 
 ### project_id
 Project ID (numeric) or full path.
@@ -78,9 +78,25 @@ Project ID (numeric) or full path.
 ### issue_iid
 The internal ID of the issue.
 
+## reply_to_issue_discussion
+
+Reply inside an existing discussion thread on an issue.
+
+### project_id
+Project ID (numeric) or full path.
+
+### issue_iid
+The internal ID of the issue.
+
+### discussion_id
+ID of the thread to reply to (from list_issue_discussions).
+
+### body
+Markdown body of the reply.
+
 ## create_issue_note
 
-Add a comment to an issue.
+Add a new top-level comment to an issue (starts a new thread; to answer an existing thread use reply_to_issue_discussion).
 
 ### project_id
 Project ID (numeric) or full path.

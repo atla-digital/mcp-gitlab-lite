@@ -255,7 +255,26 @@ func ToNote(n *gl.Note) Note {
 		Author:    PersonRef{ID: n.Author.ID, Name: n.Author.Name, Username: n.Author.Username},
 		CreatedAt: n.CreatedAt,
 		System:    n.System,
+
+		Resolvable: n.Resolvable,
+		Resolved:   n.Resolved,
+		Position:   toNotePosition(n.Position),
 	}
+}
+
+func toNotePosition(p *gl.NotePosition) *NotePosition {
+	if p == nil {
+		return nil
+	}
+	return &NotePosition{NewPath: p.NewPath, OldPath: p.OldPath, NewLine: p.NewLine, OldLine: p.OldLine}
+}
+
+func ToDiscussions(ds []*gl.Discussion) []Discussion {
+	out := make([]Discussion, len(ds))
+	for i, d := range ds {
+		out[i] = Discussion{ID: d.ID, Notes: ToNotes(d.Notes)}
+	}
+	return out
 }
 
 func ToNotes(notes []*gl.Note) []Note {
