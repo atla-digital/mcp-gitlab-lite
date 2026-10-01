@@ -1,3 +1,9 @@
+## v2.0.0 (2026-10-01)
+
+### Feat
+
+- **discussions**: list threaded discussions and add reply tools
+
 ## v1.0.0 (2026-04-09)
 
 ### BREAKING CHANGE
