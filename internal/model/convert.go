@@ -246,6 +246,33 @@ func ToJobs(jobs []*gl.Job) []Job {
 	return out
 }
 
+// ── Issue links ───────────────────────────────────────────────────────────────
+
+func ToIssueLinkRefs(rels []*gl.IssueRelation) []IssueLinkRef {
+	out := make([]IssueLinkRef, len(rels))
+	for i, r := range rels {
+		out[i] = IssueLinkRef{
+			LinkID: r.IssueLinkID, LinkType: r.LinkType, ProjectID: r.ProjectID,
+			IID: r.IID, Title: r.Title, State: r.State, WebURL: r.WebURL,
+		}
+	}
+	return out
+}
+
+func toIssueLinkEnd(i *gl.Issue) IssueLinkEnd {
+	if i == nil {
+		return IssueLinkEnd{}
+	}
+	return IssueLinkEnd{ProjectID: i.ProjectID, IID: i.IID, Title: i.Title, WebURL: i.WebURL}
+}
+
+func ToIssueLink(l *gl.IssueLink) IssueLink {
+	return IssueLink{
+		ID: l.ID, LinkType: l.LinkType,
+		Source: toIssueLinkEnd(l.SourceIssue), Target: toIssueLinkEnd(l.TargetIssue),
+	}
+}
+
 // ── Notes ─────────────────────────────────────────────────────────────────────
 
 func ToNote(n *gl.Note) Note {
