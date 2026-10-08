@@ -119,3 +119,45 @@ Filter by state: "opened", "closed", or "all". Default: "opened".
 
 ### page
 Page number for paginated results (default: 1).
+
+## list_issue_links
+
+List issues linked to an issue (related, blocking, blocked by), including links to other projects.
+
+### project_id
+Project ID (numeric) or full path.
+
+### issue_iid
+The internal ID of the issue.
+
+## create_issue_link
+
+Link two issues (two-way). The target issue may be in a different project.
+
+### project_id
+Project ID (numeric) or full path of the source issue.
+
+### issue_iid
+The internal ID of the source issue.
+
+### target_project_id
+Project ID (numeric) or full path of the target issue.
+
+### target_issue_iid
+The internal ID of the target issue.
+
+### link_type
+One of `relates_to` (default), `blocks` (source blocks target) or `is_blocked_by` (source is blocked by target).
+
+## delete_issue_link
+
+Remove a link between two issues.
+
+### project_id
+Project ID (numeric) or full path.
+
+### issue_iid
+The internal ID of the issue the link is listed on.
+
+### issue_link_id
+ID of the link (`link_id` from list_issue_links).

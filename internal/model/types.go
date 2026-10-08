@@ -121,6 +121,33 @@ type Job struct {
 	Duration float64     `json:"duration"`
 }
 
+// IssueLinkRef is a compact reference to an issue related to another one.
+type IssueLinkRef struct {
+	LinkID    int64  `json:"link_id"`
+	LinkType  string `json:"link_type"`
+	ProjectID int64  `json:"project_id"`
+	IID       int64  `json:"iid"`
+	Title     string `json:"title"`
+	State     string `json:"state"`
+	WebURL    string `json:"web_url"`
+}
+
+// IssueLink is a two-way relation between two issues.
+type IssueLink struct {
+	ID       int64        `json:"id"`
+	LinkType string       `json:"link_type"`
+	Source   IssueLinkEnd `json:"source"`
+	Target   IssueLinkEnd `json:"target"`
+}
+
+// IssueLinkEnd identifies one side of an IssueLink.
+type IssueLinkEnd struct {
+	ProjectID int64  `json:"project_id"`
+	IID       int64  `json:"iid"`
+	Title     string `json:"title"`
+	WebURL    string `json:"web_url"`
+}
+
 // Note represents a comment on an issue or MR.
 type Note struct {
 	ID        int64      `json:"id"`

@@ -126,6 +126,37 @@ Add a new top-level comment to an issue (starts a new thread; to answer an exist
 | `issue_iid` | ✓ | `number` | The internal ID of the issue. |
 | `body` | ✓ | `string` | Markdown body of the comment. |
 
+### `list_issue_links`
+
+List issues linked to an issue (related, blocking, blocked by), including links to other projects.
+
+| Parameter | Required | Type | Description |
+|-----------|----------|------|-------------|
+| `project_id` | ✓ | `string` | Project ID (numeric) or full path. |
+| `issue_iid` | ✓ | `number` | The internal ID of the issue. |
+
+### `create_issue_link`
+
+Link two issues (two-way). The target issue may be in a different project.
+
+| Parameter | Required | Type | Description |
+|-----------|----------|------|-------------|
+| `project_id` | ✓ | `string` | Project ID (numeric) or full path of the source issue. |
+| `issue_iid` | ✓ | `number` | The internal ID of the source issue. |
+| `target_project_id` | ✓ | `string` | Project ID (numeric) or full path of the target issue. |
+| `target_issue_iid` | ✓ | `number` | The internal ID of the target issue. |
+| `link_type` | | `string` | One of `relates_to` (default), `blocks` (source blocks target) or `is_blocked_by` (source is blocked by target). |
+
+### `delete_issue_link`
+
+Remove a link between two issues.
+
+| Parameter | Required | Type | Description |
+|-----------|----------|------|-------------|
+| `project_id` | ✓ | `string` | Project ID (numeric) or full path. |
+| `issue_iid` | ✓ | `number` | The internal ID of the issue the link is listed on. |
+| `issue_link_id` | ✓ | `number` | ID of the link (`link_id` from list_issue_links). |
+
 ### `search_issues`
 
 Search issues across all projects the user has access to.
