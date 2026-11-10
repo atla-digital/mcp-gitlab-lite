@@ -99,6 +99,9 @@ Squash commits when merging.
 ### should_remove_source_branch
 Delete source branch after merge.
 
+### sha
+Head SHA the merge must match (the merge fails if the branch moved on). Default: the current head of the merge request; GitLab requires one when `require_sha_for_merge` is on.
+
 ## approve_merge_request
 
 Approve a merge request.
