@@ -1,3 +1,11 @@
+## v2.0.1 (2026-11-10)
+
+### Fix
+
+- **go**: use Go 1.26.10, the newest one golangci-lint supports
+- **go**: require Go 1.27.3 so CI and builds get the patched stdlib
+- **docker**: build with Go 1.27.3
+
 ## v2.0.0 (2026-10-01)
 
 ### Feat
