@@ -56,6 +56,7 @@ func MREntries(d descriptions.Catalog) []Entry {
 				Str("merge_commit_message").
 				Bool("squash").
 				Bool("should_remove_source_branch").
+				Str("sha").
 				Build(),
 			Handler: mergeMR,
 		},
@@ -199,6 +200,17 @@ func mergeMR(_ context.Context, client *gl.Client, req mcp.CallToolRequest) (*mc
 	if v, ok := a.Bool("should_remove_source_branch"); ok {
 		opts.ShouldRemoveSourceBranch = gl.Ptr(v)
 	}
+	// GitLab refuses a merge without the head SHA when require_sha_for_merge is on (the
+	// default for new groups). Without a given SHA, merge the head as it is now.
+	sha := a.SHA()
+	if sha == "" {
+		cur, _, err := client.MergeRequests.GetMergeRequest(a.ProjectID(), a.MrIID(), nil)
+		if err != nil {
+			return errResult(err)
+		}
+		sha = cur.SHA
+	}
+	opts.SHA = gl.Ptr(sha)
 	mr, _, err := client.MergeRequests.AcceptMergeRequest(a.ProjectID(), a.MrIID(), opts)
 	if err != nil {
 		return errResult(err)
