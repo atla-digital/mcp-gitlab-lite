@@ -1,3 +1,9 @@
+## v2.0.2 (2026-11-10)
+
+### Fix
+
+- **mergerequests**: send the head SHA when merging
+
 ## v2.0.1 (2026-11-10)
 
 ### Fix
